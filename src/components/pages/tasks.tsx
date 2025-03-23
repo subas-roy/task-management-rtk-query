@@ -1,14 +1,12 @@
-// import { selectTasks, updateFilter } from '@/redux/features/task/taskSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import TaskCard from '../module/tasks/TaskCard';
 import AddTaskModal from '../module/tasks/AddTaskModal';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
+import { useGetTasksQuery } from '@/redux/api/baseApi';
+import { ITask } from '@/types';
 
 const Tasks = () => {
-  // const tasks = useAppSelector(selectTasks);
-  const dispatch = useAppDispatch();
-
-  // console.log(tasks);
+  const { data, isLoading, isError } = useGetTasksQuery(undefined);
+  console.log({ data, isLoading, isError });
 
   return (
     <div className="mx-auto max-w-7xl px-5 mt-20">
@@ -45,9 +43,10 @@ const Tasks = () => {
         <AddTaskModal />
       </div>
       <div className="space-y-5 mt-5">
-        {/* {tasks.map((task) => (
-          <TaskCard task={task} key={task.id} />
-        ))} */}
+        {!isLoading &&
+          data.tasks.map((task: ITask) => (
+            <TaskCard task={task} key={task.id} />
+          ))}
       </div>
     </div>
   );
