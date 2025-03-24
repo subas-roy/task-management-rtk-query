@@ -32,6 +32,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { useCreateTaskMutation } from '@/redux/api/baseApi';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { ITask } from '@/types';
 import { Description } from '@radix-ui/react-dialog';
@@ -44,12 +45,20 @@ const AddTaskModal = () => {
   // const users = useAppSelector(selectUsers);
   const form = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const [createTask, { data, isLoading }] = useCreateTaskMutation();
+
+  console.log('Data', data);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const taskData = {
       ...data,
       isCompleted: false,
     };
-    console.log(taskData);
+
+    const res = await createTask(taskData).unwrap();
+
+    console.log('Inside submit function', res);
+
     setOpen(false); // close the modal
     form.reset(); // reset the form
   };
