@@ -32,8 +32,6 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-// import { addTask } from '@/redux/features/task/taskSlice';
-// import { selectUsers } from '@/redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { ITask } from '@/types';
 import { Description } from '@radix-ui/react-dialog';
@@ -46,11 +44,12 @@ const AddTaskModal = () => {
   // const users = useAppSelector(selectUsers);
   const form = useForm();
 
-  const dispatch = useAppDispatch();
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // type assertion
-    dispatch(addTask(data as ITask));
+    const taskData = {
+      ...data,
+      isCompleted: false,
+    };
+    console.log(taskData);
     setOpen(false); // close the modal
     form.reset(); // reset the form
   };
