@@ -7,9 +7,16 @@ export const baseApi = createApi({
     getTasks: builder.query({
       query: () => '/tasks',
     }),
+    createTask: builder.mutation({
+      query: (taskData) => ({
+        url: '/tasks',
+        method: 'POST',
+        body: taskData,
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTasksQuery } = baseApi;
+export const { useGetTasksQuery, useCreateTaskMutation } = baseApi;
