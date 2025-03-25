@@ -5,7 +5,12 @@ import { useGetTasksQuery } from '@/redux/api/baseApi';
 import { ITask } from '@/types';
 
 const Tasks = () => {
-  const { data, isLoading, isError } = useGetTasksQuery(undefined);
+  const { data, isLoading, isError } = useGetTasksQuery(undefined, {
+    pollingInterval: 30000, // re-fetch data automatically every 30 seconds
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true, // re-fetch when come from another route
+    refetchOnReconnect: true, // re-fetch when internet re-connect
+  });
   console.log({ data, isLoading, isError });
 
   return (
